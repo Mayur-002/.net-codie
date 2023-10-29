@@ -1,0 +1,68 @@
+1)Naming Conventions
+
+All of the names of namespaces, classes, and members in the base classes ,property follow Pascal casing eg.VidyaNidhi
+
+camel casing: calSalary()
+Private member
+All parameters passed to methods:
+
+
+2)DATA TYPE
+
+Value Types [Primitive type and struct, enum]
+ Reference Types[ class, array,string ]
+
+
+
+3)When you compile a C# program, the output of the compiler is not executable code. Instead, it is a file that contains a special type of pseudocode called Microsoft Intermediate Language (MSIL). 
+
+Microsoft Intermediate Language is turned into executable code using a JIT compiler.
+“JIT” stands for “Just-In-Time.”
+3)a)  CLR will call the Main method(common lang runtime
+
+4)signature for Main(); method. // note: M of main is in capital
+
+public static void Main(String [] args)
+public static void Main()
+private static void Main()
+static void Main() 
+
+------------------------------------------
+public static int Main(String [] args)
+public static int Main()
+private static int Main()
+static int Main() 
+
+in above  you have to write return 0;
+
+
+
+5)Console is static class and WriteLine is static method
+         Console.WriteLine(" "); output
+         Console.ReadLine(“ ");  input
+
+6)name space(Logically grouping of class and avoid name	collision )   
+
+7) class can be public or internal and  by default it's internal and methode of class are private  
+7-a) internal:When you declare a class or member with the "internal" access modifier, it means that it can be accessed and used by other code within the same assembly but is not visible or accessible to code in other assemblies. This provides a level of encapsulation and helps in organizing and securing the components of your application. 
+
+8) three ways to write output 
+- concat
+      ConsoleWriteline("result=" +result)
+- placeholder
+      ConsoleWriteline("result={0}" result) or ConsoleWriteline("results={0},{1}.." a,b..}
+- stringinterpolation
+      ConsoleWriteline(($ "a={a} b={b}")
+
+9)what is Assembly
+ Assembly is set of code.
+An Assembly can be EXE(console application) or DLL(class library without Main)
+There are three type of Assembly 
+a)Private Assembly
+b)Shared Assembly
+c)Satellite Assembly
+
+    
+10) data type 
+a) byte+ byte =int   
+
