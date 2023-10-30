@@ -1,0 +1,89 @@
+>struct:
+       -Structs are value types, not reference types. This means they are stored either in the stack or inline
+       -Structs do not support inheritance,structure can implement one or more interfaces. 
+       -A  structure can not  have no arg  constructor(but if version of compiler is less than 10 if its greater than 10 then its support no arg constructor),A structure have parameterized constructor provided it assign value for all its member
+       -Access modifier for structure can be either internal or public(Default is internal)
+............................................................................................................................................................................................
+>struct static method :
+ 1)parse  :    -Structure can have static method(in framework int.parse() where int is structure and parse is static method)
+       -code=Parse method convert string to number
+              using System;
+namespace funwithstruct
+{
+    struct convert_str_num
+    {
+        public static int num(string s)
+        {
+            int n = int.Parse(s);// string  get converted into  integer & parse is static method(This code will compile successfully but give runtime error which is not good. At runtime it is trying to convert “hi” to float. Since the data is not float it will throw exception.)
+
+            return n;// and returning interger 
+        }
+        public static int add(int x, int y)
+        {
+            return x+y;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            String no1 = "55";// string literal store in string pool in heap
+            String no2 = "4";// if we put null or any "hi" then it will throw exceptio.
+            int x = convert_str_num.num(no1);// num is static method so it will call by struct without creating object of it
+            int y = convert_str_num.num(no2);// num is static method so it will call by struct without creating object of it
+            int result = convert_str_num.add(x, y);//
+            Console.WriteLine(result);
+            Console.ReadLine();
+        }
+    }
+
+}
+
+2)Convet.Tosingle() is better then float.Parse() as for null data it will not throw any exception it will print zero
+
+using System;
+namespace funwithstruct
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            string x = "9.9";/null it will give zero
+            float f = Convert.ToSingle(x);// covert is static class Tosingle is static method which have rertun type float
+            Console.WriteLine(f);
+
+        }
+    }
+
+}
+3) Tryparse:-TryParse is the best method to convert string to number as it will return Boolean value 
+           - i.e. if it can convert string to number it will return true 
+           -If it can not convert string to number it will return false 
+     code:-namespace funwithstruct
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string x = "9.9";
+            float f;
+            bool a1 = float.TryParse(x, out f); //Float is structure having static method TryParse() which will return Boolean.True if it can convert string to number, false otherwise.
+            // if x is converted into float it will return true else false
+            Console.WriteLine(a1);
+            if (a1 == true)
+                Console.WriteLine(f);
+        }
+
+    }
+
+}
+-All the above method are used to  convert string to number, but best is to use TryParse() as it will never give runtime exception.
+-All primitive types are internally structure 
+
+
+............................................................................................................................................................................................
+
+
+Shallow copy(arrow copy i.e. only create another refrence of existing object )
+       
