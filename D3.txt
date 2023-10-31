@@ -1,0 +1,173 @@
+>Constructor:
+             -Job of Constructor is to initialize the instance member
+>Default Access modifier for member of class? Ans: private
+>Default Access modifier for top level class? Ans: internal[you can access in current assembly]
+
+>Constructor overloading:
+             -When a class has more then one constructor with different argument then it  is called constructor overloading.
+              -Scenario:-Indicate compulsory fieldo in application filling 
+User may enter all the 3 text field or only 2 text field in both situation you have to create object so like First name [],last name[],middle name[] ,To satisfy this requirement we need constructor overloading.
+e.g.
+Employee e1=new Employee(“Raj”,”Shah”,”dhirubhai”);
+Employee e2=new Employee(“Nainen”,”Chako”);
+
+>Static constructor:
+                   -Static constructor is called  by CLR as soon as class get loaded.
+Think of following scenario.
+As soon as you run any banking application name of the bank should be displayed 1st
+As soon as your client run your app it should display name of company and copy right detail. 
+Which mean when you want to display certain data only one time as soon as you start your application we use static constructor.
+
+using System;
+using System.Diagnostics;
+
+namespace ConsoleApplicationdemo
+{
+    class Employee
+    {
+        double salary;// instance member 
+        string name;// instance member 
+        static Employee()//You can not have access modifier for static constructor
+
+        {
+            Console.WriteLine("2006 SMVITA co");//Which mean when you want to display certain data only one time as soon as you start your application we                                                     use static constructor.
+
+
+
+        }
+        public Employee(string name,double salary)
+        {
+            this.salary = salary;
+            this.name = name;
+        }
+        public void display()
+        {
+            Console.WriteLine( "name={0} salary={1}", name ,salary);
+        }
+       
+    }
+    class program
+    {
+         static void Main(string[] args)
+        {
+            Employee e1 = new Employee("raj", 80000000);
+            e1.display();
+            Employee e2 = new Employee("raja", 90000000);
+            e2.display();
+
+        }
+    }
+}
+
+
+>static methode:-
+-               -When particular task is required to be done very frequently.
+                - it resides in external memory block
+                -A static method can use instance methods and access instance variables of its class, but it needs to do so through an object of that class. It cannot use an instance variable or method without specifying the object.
+
+using System;
+using System.Security.Cryptography;
+using System.Xml.Linq;
+
+namespace ConsoleApplicationdemo
+{ 
+    class Employee
+    {
+       public int id;
+       public string name;
+       public double salary;
+        public Employee(int eid, string ename,double sal)
+        {
+            id = eid;
+            name = ename;
+            salary = sal;
+        }
+        public static double paytax(Employee e)
+        {
+            return e.salary * 0.1;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Employee e1 = new Employee(1, "Raj", 5000);
+            double d = Employee.paytax(e1);
+            Console.WriteLine("id={0} name={1} sal={2}", e1.id, e1.name, e1.salary);
+            Console.WriteLine("Tax  {0}", d);
+            Employee e2 = new Employee(2, "Raja", 6000);
+            double d1 = Employee.paytax(e2);
+            Console.WriteLine("id={0} name={1} sal={2}", e2.id, e2.name, e2.salary);
+            Console.WriteLine("Tax  {0}", d1);
+
+
+        }
+    }
+
+}
+
+>Static variable:-
+                -Static variable is also called class level variable because you use it with class name  and  It is common information for all instance. 
+                 -Its default value is 0, it persist value and initialized only once
+                 -You can not declare static variable inside instance method.
+
+using System;
+namespace basic1
+{
+    class Account
+    {
+        static int getid;
+        int id;
+        string name;
+        double balance;
+        static double interest_rate = 0.07;
+        static Account()
+        {
+            Console.WriteLine("Bank of Baroda");
+        }
+        public Account(string nm, double bal)
+        {
+            id = ++getid;
+            name = nm;
+            balance = bal;
+        }
+        public void deposit(double amt)
+        {
+            balance += amt;
+        }
+        public string display()
+        {
+            return string.Format("{0}{1}{2}", id, name, balance);
+        }
+        public static double payint(Account obj)
+        {
+            double income = obj.balance * interest_rate;
+            obj.balance = obj.balance + income;
+            return income;
+        }
+
+    }
+    class AccountDemo
+    {
+        static void Main()
+        {
+            Account a1 = new Account("Raj", 1000); // create a  object 
+            Account a2 = new Account("Geeta", 40000); // create a object 
+
+            Console.WriteLine(Account.payint(a1));
+            a1.deposit(3000);
+            a2.deposit(1000);
+
+            Console.WriteLine(a1.display());
+            Console.WriteLine(a2.display());
+            double r = Account.payint(a2);
+        }
+    }
+}
+
+
+
+
+
+  
+
