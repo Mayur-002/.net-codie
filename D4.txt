@@ -1,0 +1,221 @@
+>Const key word:-
+                -Generally we declare variable as constant when we Know the value at compile time and it is not going to modify through out the life spane of application.
+                 -Scenario=1)Total number of seat for DAC course   
+                           2)Minimum balance allowed in saving account if you issue passbook.
+                 -Variable must be declared and initialized in same line syntax(const int maxemp=120);
+
+                 -It resolves at compile time
+                 -By default const is static so we can use as classname.variable and we can not write 
+                  Public static const int no=50; //error
+code-
+using System;
+namespace okboss; 
+
+class Dac_Course
+{
+public const int capacity = 120;
+}
+
+class SDemo
+{
+public static void Main()
+{
+        Console.Write(Dac_Course.capacity);
+}
+}
+
+>Basic imp Rule :Very 1st has to be access modifier like public, internal, private
+public const int capacity=120
+public static double TDS=0.01
+
+............................................................................................................................................................................................
+
+>Readonly keyword:-
+                  -You can initialize readonly variable at the time of declaration in a class 
+                                          or
+                   -You can initialize readonly variable in constructor only
+
+                    - you can modify the value of readonly variable at compile time but only in the static constructor  
+code-
+
+using System;
+namespace basic1
+{
+    class demoreadonly
+    {
+        public static readonly double intrate = 0.5;
+        public readonly double TDS;
+        static demoreadonly()  
+        {
+            intrate = 0.07;// value of readonly variable modify in the static constructor 
+            Console.WriteLine(intrate);
+        }
+        public demoreadonly()
+        {
+            TDS = 0.1;
+            Console.WriteLine(TDS);
+        }
+    }
+        class EmployeeDemo
+        {
+            static void Main()
+            {
+                demoreadonly obj = new demoreadonly();
+            obj.TDS = 44; // error can not change value at runtime
+            }
+        }
+    }
+............................................................................................................................................................................................
+
+> Static class and constructor :
+
+using System;
+
+namespace datatype
+{
+  static class myclass
+   {
+      public static int x;
+       static myclass()
+       {
+           x = 55;
+           Console.WriteLine("hi"+x);
+            
+       }
+    }
+
+   class Program
+    {
+        static void Main(string[] args)
+        {
+           int y=myclass.x;// variable called by class name bcz of static
+            Console.WriteLine("in main");
+            Console.ReadLine();
+        }
+
+
+        
+    }
+}
+No class execute on its own, unless you call it.
+Now in  case of static class how you will call this class? As you can not create object of that class since it is static. If class does not get loaded CLR will not able to call static constructor. So in such situation we declare static variable  and we use this static variable so the moment you write in our example     myclass.x; myclass get loaded in memory x will be intialised to 0 and then CLR will call static constructor and x=55 set. If you comment
+ //int y=myclass.x;
+There will be no out put
+............................................................................................................................................................................................
+  
+Properties:-
+
+Property is used to Modify the private variable of Class from out side.(get ,set)
+
+
+using System;
+namespace propconstruct;
+class Propdisp
+{
+    String name;
+    public Propdisp(string nm)// constructor
+    {
+        name = nm;//In constructor we are calling setter so if data is valid value is set
+        Console.WriteLine(name);
+
+    }
+    public string Name
+    {
+        get
+        {
+            Console.Write("get called");
+            return name;
+        }
+
+
+        set
+        {
+            Console.WriteLine("set called");
+            if (value.Length < 3)  //we are writing validation code in setter
+                Console.WriteLine("err");//Otherwise it will display error message
+
+            else
+                name = value;
+        }
+
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Propdisp obj = new Propdisp("vi");
+    }
+}
+
+-How can I stop creating object if value is invalid? You have to throw exception like
+e.g.
+throw new Exception(“invalid data”)
+(write this line in if condition)
+
+
+>Readonly property :If you write only getter then it will become readonly property
+e.g.Adharcard number so these are readonly property.
+>writeonly:write-only property could be used to set a password on a User object. Since passwords are usually stored in hashed form, there is (and should be) no way to retrieve a password after it has been set.
+  
+
+>Autoimplementation:Think about it. I have 10 instance member in a class, which does not require any validation. So programmer has to write 10 private member and then 10 getter setter property. Again private member you can not use outside class. Private member initialised through setter and read through getter.
+
+In such situation frame work has come up with auto implement property. ( we use "IALDASM" to check it)<Intermediate Language Disassembler>
+............................................................................................................................................................................................
+ 
+
+>Array:It is collection of similar data type. 
+  
+>Initialization and declaration in one line
+ // Array initialization syntax using the new keyword.
+string[] stringArray = new string[] { "one", "two", "three" };
+
+
+// Array initialization with new keyword and size.
+int[] intArray = new int[4] { 20, 22, 23, 0 };
+
+>Anonymous array and implicit type
+ -var b = new[] { 1, 1.5, 2, 2.5 };
+>The var keyword is used for implicit typing. It tells the compiler to infer the type of the variable based on the right-hand side expression.
+ 
+
+> jagged array :int[][] jagged = new int[3][];
+In a jagged array, you specify the size of the rows, providing flexibility in the number of columns. 
+
+Scenario of jagged array :-Imagine you have a classroom with students, and each student takes a different number of courses. In this case, you can represent their course grades using a jagged array. Each row of the array corresponds to a student, and the number of columns in each row represents the varying number of courses each student has taken. This flexibility in the number of courses per student is where the jagged array excels.
+............................................................................................................................................................................................
+
+>String:-
+      -String is reference type data
+      -String is immutable 
+      -To modify original string you have to use StringBuilder Class.(StringBuilder class to modify original string It is in  System.Text; namespace)
+      -String is sealed class ie. You can not sub class it.
+      -Literal string resides in String pool
+      -Where string pool resides ? It  is located on heap. 
+> String poll:-
+
+Why string pool
+If multiple variables hold the same string value, CLR will allocate a single memory location and save a reference so that the memory usage can be minimized. For eg: string country="US"; string nation="US";CLR will check to find if any match there already in the heap. If so keep a reference for the variable value 'nation.
+............................................................................................................................................................................................
+
+>Interning and IsInterned : -When you intern a string, you put it in a special pool, and any other references to the same string will point to that exact same piece of memory.
+                            -IsInterned: job of this function is to check whether the string is their in the string pool or not. If it is in string pool it will return reference else it will return null
+                            - it use ternary operator ? :
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
