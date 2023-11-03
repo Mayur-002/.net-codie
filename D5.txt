@@ -1,0 +1,150 @@
+>Instance of in C# :  is :It is operator which says “a” is instance of class person. It returns Boolean value
+using System;
+using System.Text;
+namespace objectoverrides;
+class Person// Person Inherited from object class 
+{
+    string fnm, lnm;
+    int age;
+    public Person(string fName, string lName, int personAge)
+    {
+        fnm = fName;
+        lnm = lName;
+        age = personAge;
+    }
+}
+class program
+{
+    static void Main()
+    {
+        Person a = new Person("Raj", "Mathur", 22);
+        Person b = new Person("Geeta", "Shah", 22);
+        Console.WriteLine(a);//when you print object , internally it is calling  ToString() method of your class Person.(implicitly calling to string )
+        Console.WriteLine(a.ToString());// Explicitly calling To string
+        Console.WriteLine(a is Person);// True 
+        Console.WriteLine(a is Object);// True 
+
+    }
+}
+o/p: ObjectOverrides.Person 
+     ObjectOverrides.Person
+     True 
+     True
+
+
+>But you do not have ToString method in Person class.
+Who is the parent class of Person class?
+Yes you are right Object.
+>Object class has virtual string ToString() method who’s job is to return current class name ie person because we are calling a.ToString().
+............................................................................................................................................................................................
+
+> ReferencEquals()--:it is a static method that tests two reference (Arrow )are same or not.you can not override this method;
+
+>static Equals(a,b) --> - static overload 1st check whether the references it has been passed are null. If both are null it will return true else false.
+                        - if both the reference refer to something it calls the virtual instance version of Equals().
+                        -This method is able to cope when either of the objects is null , and, therefore, provides an extra safeguard against throwing exceptions if there is a risk that an object might be null .
+                        -[ie. when I use a.Equals(b) if one of the object is null it will throw   System.NullReferenceException: 
+
+                         Normal(By Default)                    string                   
+>==              =    checks refrence            checks content  (overloaded)          
+
+>virtual equals  =    checks refrence            checks content  ( overidden)        
+                                                 
+>gethashcode     =    checks refrence            checks content  ( overidden)           
+
+>object.Equals   =    checks refrence            checks content            
+
+>refrenceEquals  =    checks refrence            checks refrence            
+
+
+>>NOTE:if you override virtual equals you should override virtual GetHasCode() method.
+............................................................................................................................................................................................
+
+
+>> call by value:-When you pass primitive type in a function  another memory block get created and data get copied to new memory block,So if you make some changes to the parameter in a function original data does not get affected
+
+
+using System;
+using System.Xml.Serialization;
+
+class Test
+{
+    public void nochange(int i , int j)
+    {
+        i = i + 5;
+        j = j + 5;
+    }
+}
+class Callbyvalue
+{
+    public static void Main()
+    {
+        Test ob = new Test();
+        int a = 15, b = 20;
+        Console.WriteLine(" a and b before call:{0},{1}", a ,b);// 15,20
+        ob.nochange(6, 10);
+        Console.WriteLine(" a and b after call:{0},{1}", a, b);// 15,20
+
+    }   
+}
+
+>> call by Ref:-now both ob and obj pointing to same Memory block so that any refrence can ale to modify the data,another memory block does not get created
+
+
+using System;
+class Test
+{
+   public int a, b;
+    public Test (int i, int j)
+    {
+        a = i;
+        b = j;
+
+    }
+    public void change(Test obj)
+    {
+        obj.a = a + 5;
+        obj.b = b + 5;
+    }
+}
+class  callByref
+{
+    public static void Main()
+    {
+        Test ob = new Test(15, 20);
+        Console.WriteLine("before call: {0},{1}", ob.a, ob.b);
+        ob.change(ob);
+        Console.WriteLine("after call: {0},{1}", ob.a, ob.b);
+
+
+    }
+}
+............................................................................................................................................................................................
+
+> PARAM keyword :- Params is a key word which will accept parameter as array so that it will work irrespective of the number of data pass while calling function.
+syntax :
+params int[] nums// accept integer as no of argument
+............................................................................................................................................................................................
+
+> Methode overloading -
+>why mehode overloading :
+--->When the purpose of methods are same but just type of argument is deferent in such scenario we should use method overloading.
+
+When there are two or more method with the same name in a class but
+with different number of argument
+With different type of argument 
+With different order of argument
+
+When parent and child class both has method with the same name but
+with different number of argument
+With different type of argument 
+With different order of argument
+Is called method overloading. 
+Note: It is not sufficient for two methods to differ only in their return types. They must differ in the types or number of their parameters
+............................................................................................................................................................................................
+
+
+
+
+
+
