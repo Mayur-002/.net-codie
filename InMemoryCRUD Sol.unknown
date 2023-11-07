@@ -1,0 +1,129 @@
+>>class Employee
+
+
+namespace InMemoryCRUD
+{
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public Dept Department { get; set; }
+
+    }
+
+    public enum Dept { MKT, ADV, HR }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class  InMemoryCRUD
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+namespace InMemoryCRUD
+{
+
+   
+    public interface IEmployeeRepository
+    {
+        Employee GetEmployee(int Id);
+        IEnumerable<Employee> GetAllEmployee();
+        Employee Add(Employee employee);
+        Employee Update(Employee employeeChanges);
+        Employee Delete(int Id);
+    }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+>> class -MockEmployeeRepository
+
+
+namespace InMemoryCRUD
+{
+
+    public class MockEmployeeRepository : IEmployeeRepository
+    {
+        private static List<Employee> _employeeList;
+
+        public MockEmployeeRepository()
+        {
+            _employeeList = new List<Employee>(){
+            new Employee() { Id = 1, Name = "Mary", Department = Dept.HR, Email = "mary@CDACtech.com" },
+            new Employee() { Id = 2, Name = "John", Department = Dept.MKT, Email = "john@CDACtech.com" },
+            new Employee() { Id = 3, Name = "Sam", Department = Dept.ADV, Email = "sam@CDACtech.com" },
+             };
+        }
+        public Employee Add(Employee employee)
+        {
+            employee.Id = _employeeList.Max(e => e.Id) + 1;
+            _employeeList.Add(employee);
+            return employee;
+        }
+        public Employee Delete(int Id)
+        {
+            Employee employee = _employeeList.FirstOrDefault(e => e.Id == Id);
+            if (employee != null)
+            {
+                _employeeList.Remove(employee);
+            }
+            return employee;
+        }
+        public IEnumerable<Employee> GetAllEmployee()
+        {
+            return _employeeList;
+        }
+        public Employee GetEmployee(int Id)
+        {
+            return _employeeList.FirstOrDefault(e => e.Id == Id);
+        }
+        public Employee Update(Employee employeeChanges)
+        {
+            Employee employee = _employeeList.FirstOrDefault(e => e.Id == employeeChanges.Id);
+            if (employee != null)
+            {
+                employee.Name = employeeChanges.Name;
+                employee.Email = employeeChanges.Email;
+                employee.Department = employeeChanges.Department;
+            }
+            return employee;
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Program-
+
+
+namespace InMemoryCRUD
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            MockEmployeeRepository db= new MockEmployeeRepository();
+            Display(db);
+           Employee a= db.Add(new Employee { Name = "Kavita", Email = "smvita@gmail.com", Department = Dept.HR });
+            Console.WriteLine("Record Added: {0} {1} {2} {3}", a.Id, a.Name, a.Email, a.Department);
+            Display(db);
+            db.Delete(4);
+            Display(db);
+            Employee m= new Employee { Id = 3, Name = "Sam", Department = Dept.MKT, Email = "sam@CDACtech.com" };
+            UpdateData(m,db);
+            
+
+        }
+        static void Display(MockEmployeeRepository db)
+        { 
+            foreach(Employee a in db.GetAllEmployee())
+                Console.WriteLine(": {0} {1} {2} {3}", a.Id, a.Name, a.Email, a.Department);
+        }
+        static void UpdateData(Employee e, MockEmployeeRepository db)
+        { 
+             db.Update(e);
+            Display(db);
+        }
+    }
+}
