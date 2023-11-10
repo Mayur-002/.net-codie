@@ -1,0 +1,157 @@
+// Employee.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CA_ADO_01
+{
+    internal class Employee // class 1
+    {
+        public int Id { get; set; }      // Employee ID
+        public string Name { get; set; } // Employee Name
+        public float Salary { get; set; } // Employee Salary
+    }
+}
+................................................................................................................................................
+// program.cs
+
+using Microsoft.Extensions.Configuration;
+
+namespace CA_ADO_01
+{
+    internal class Program // class 2
+    {
+        private static IConfiguration _iconfiguration;//IConfiguration interface is part of the .NET Core  it is used to read configuration settings from the "Appsettings.json" file, which contains connection string information for your database.
+
+        static void Main(string[] args)
+        {
+            GetAppSettingsFile(); // Load application settings from Appsettings.json
+            EmpDisplay(); // Call the EmpDisplay function
+        }
+
+        static void GetAppSettingsFile()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("Appsettings.json", optional: false, reloadOnChange: true);
+            _iconfiguration = builder.Build();
+        }
+
+        static void EmpDisplay()
+        {
+            // Create an instance of the Strongly_type class and work with Employee data
+            Strongly_type indata = new Strongly_type(_iconfiguration);
+
+            // Example of adding an Employee
+            // int a = indata.AddData(p1);
+            // Console.WriteLine("{0}", a);
+
+            Console.WriteLine("----------------------------");
+
+            // Example of searching for an Employee by ID
+            // Employee r = indata.search(1);
+            // Console.WriteLine("{0}{1}{2}", r.Id, r.Name, r.Salary);
+
+            Console.WriteLine("----------------------------");
+
+            // Example of searching for Employees by name
+            // List<Employee> pl = indata.search("Raj");
+            // if (pl != null)
+            // {
+            //     foreach (var x in pl)
+            //         Console.WriteLine("{0}{1}{2}", x.Id, x.Name, x.Salary);
+            // }
+            // else { Console.WriteLine("record with Raj not found"); }
+
+            Console.WriteLine("----------------------------");
+
+            // Example of deleting an Employee
+            // int no = indata.Del(3);
+            // Console.WriteLine("deleted {0}", no);
+
+            // Get a list of all Employees
+            List<Employee> ls = indata.GetList();//indata is an instance of the Strongly_type GetList() is a method defined within the Strongly_type class, and it's called on the indata object to retrieve a list of employees from a database. 
+            foreach (var x in ls)
+                Console.WriteLine("{0}  {1}  {2}", x.Id, x.Name, x.Salary);
+
+            Console.ReadLine();
+        }
+    }
+}
+................................................................................................................................................
+// strongly_type.cs
+
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CA_ADO_01
+{
+    internal class Strongly_type // class 3
+    {
+        private string _connectionString;
+
+        public Strongly_type(IConfiguration iconfiguration)
+        {
+            _connectionString = iconfiguration.GetConnectionString("Default");
+        }
+
+        public SqlConnection getconnection()
+        {
+            SqlConnection sqlconn = new SqlConnection();
+            sqlconn.ConnectionString = _connectionString;
+            return sqlconn;
+        }
+
+        public int AddData(Employee e)
+        {
+            // Code for adding an Employee to the database
+        }
+
+        public Employee search(int id)
+        {
+            // Code for searching for an Employee by ID
+        }
+
+        public List<Employee> search(string name)
+        {
+            // Code for searching for Employees by name
+        }
+
+        public int Del(int id)
+        {
+            // Code for deleting an Employee
+        }
+
+        public List<Employee> GetList()
+        {
+            // Code for getting a list of all Employees
+        }
+    }
+}
+//connection strings are essential for establishing a secure and efficient connection between an application and a data source, allowing the application to retrieve, manipulate, and store data in the database
+
+// Appsettings.json
+
+{
+    "ConnectionStrings": {
+        "Default": "Data Source=(localdb)\\ProjectModels;Initial Catalog=Demo_Data;Integrated Security=True;"
+    }
+}
+
+// SQL stored procedure (storedata)
+// This stored procedure is used to insert data into the Employee table
+
+// SQL stored procedure (spGetProductsByName)
+// This stored procedure is used to search for products by name in the Product table
+
+// SQL stored procedure (SP_cus_GET_LIST)
+// This stored procedure is used to get a list of all customers in the Customer table
